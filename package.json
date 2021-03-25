@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/MinJunSeo/jaksim_Server/issues"
   },
-  "homepage": "https://github.com/MinJunSeo/jaksim_Server#readme"
+  "homepage": "https://github.com/MinJunSeo/jaksim_Server#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
 }

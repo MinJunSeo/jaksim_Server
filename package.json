@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MinJunSeo/jaksim_Server#readme",
   "dependencies": {
+    "class-validator": "^0.13.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mysql": "^2.18.1",

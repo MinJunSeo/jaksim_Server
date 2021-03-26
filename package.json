@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MinJunSeo/jaksim_Server#readme",
   "dependencies": {
+    "@prisma/client": "^2.19.0",
     "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

@@ -39,8 +39,8 @@ model Category {
 
 model Post {
   id Int @id @default(autoincrement())
-  title String @db.VarChar(45)
-  content String? @db.VarChar(45)
+  title String @db.VarChar(30)
+  content String? @db.VarChar(300)
   image String @db.VarChar(45)
   createdAt DateTime @db.DateTime() @default(now())
   

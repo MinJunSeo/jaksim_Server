@@ -1,0 +1,64 @@
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  username   String @id @db.VarChar(8)
+  password   String @db.VarChar(60)
+  nickname   String @db.VarChar(6)
+  email      String @unique @db.VarChar(25)
+
+  logs       Log[]
+  categories Category[]
+  posts      Post[]
+}
+
+model Log {
+  id       Int      @id @default(autoincrement())
+  date     DateTime @db.Date @default(now())
+  type     String   @db.VarChar(15)
+
+  user     User     @relation(fields: [username], references: [username])
+  username String   @db.VarChar(8)
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(20)
+
+  user     User   @relation(fields: [username], references: [username])
+  username String @db.VarChar(8)
+
+  posts    Post[]
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(45)
+  content String? @db.VarChar(45)
+  image String @db.VarChar(45)
+  createdAt DateTime @db.DateTime() @default(now())
+  
+  user User @relation(fields: [username], references: [username])
+  username String @db.VarChar(8)
+
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  tags Tag[]
+}
+
+model Tag {
+  post Post @relation(fields: [postId], references: [id])
+  postId Int
+
+  tagName String @db.VarChar(10)
+  createdAt DateTime @db.Date() @default(now())
+
+  @@id([postId, tagName])
+}

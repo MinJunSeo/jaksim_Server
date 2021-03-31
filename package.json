@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "ts-node --type-check app"
+    "start": "ts-node --type-check src/index"
   },
   "repository": {
     "type": "git",

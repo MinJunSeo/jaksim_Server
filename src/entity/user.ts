@@ -1,14 +1,13 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { IsEmail, MaxLength } from "class-validator";
+import { IsEmail, MaxLength, Length } from "class-validator";
 import { Log } from "./log";
 import { Category } from "./category";
 import { Post } from "./post";
-import { HttpResponse, SignupRequest } from "../dto";
-import { Context } from "context";
 
 @ObjectType()
 export class User {
   @Field(type => ID)
+  @Length(6, 8)
   readonly username!: string;
 
   @Field()
@@ -16,6 +15,7 @@ export class User {
   password!: string;
 
   @Field()
+  @Length(2, 5)
   nickname!: string;
 
   @Field()

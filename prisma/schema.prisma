@@ -9,7 +9,7 @@ generator client {
 
 model User {
   username   String @id @db.VarChar(8)
-  password   String @db.VarChar(60)
+  password   String @db.Char(60)
   nickname   String @db.VarChar(6)
   email      String @unique @db.VarChar(25)
 

@@ -1,8 +1,10 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { IsEmail } from "class-validator";
+import { IsEmail, MaxLength } from "class-validator";
 import { Log } from "./log";
 import { Category } from "./category";
 import { Post } from "./post";
+import { HttpResponse, SignupRequest } from "../dto";
+import { Context } from "context";
 
 @ObjectType()
 export class User {
@@ -10,6 +12,7 @@ export class User {
   readonly username!: string;
 
   @Field()
+  @MaxLength(60)
   password!: string;
 
   @Field()
@@ -20,11 +23,11 @@ export class User {
   readonly email!: string;
 
   @Field(type => [Log], { nullable: true })
-  logs!: [Log] | null
+  logs?: [Log] | null
 
   @Field(type => [Category], { nullable: true })
-  categories!: [Category] | null
+  categories?: [Category] | null
 
   @Field(type => [Post], { nullable: true })
-  posts!: [Post] | null
+  posts?: [Post] | null
 }

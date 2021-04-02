@@ -2,7 +2,7 @@ import { InputType, Field } from "type-graphql";
 import { Length, IsEmail } from "class-validator";
 
 @InputType()
-export class GetOneUserRequest {
+export class GetOneUserResponse {
   @Field()
   @Length(6, 8)
   username!: string;

@@ -1,2 +1,2 @@
 export * from "./httpResponse";
-export * from "./getOneUserResponse";
+export * from "./getOneUser";

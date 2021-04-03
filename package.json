@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "ts-node --type-check src/index"
+    "start": "ts-node --type-check src/index",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

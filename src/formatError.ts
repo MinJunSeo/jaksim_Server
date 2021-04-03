@@ -1,12 +1,13 @@
-export const formatError = (err) => {
-  const { message, extensions } = err;
-  
-  // class-validator exception handling
-  if (message.startsWith("Argument")) {
-    return {
-      message: "Invalid Parameters",
-      status: 400
-    };
+import { ValidationError } from "apollo-server";
+
+export const formatError = err => {
+  let { message, extensions } = err;
+  console.log(message)
+
+  // class-validator and graphql validation exception handling
+  if (err instanceof ValidationError || message.startsWith("Argument")) {
+    message = "Invalid Parameteres";
+    extensions = { status: 400 };
   }
 
   return {

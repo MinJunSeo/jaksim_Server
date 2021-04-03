@@ -21,6 +21,6 @@ export class UserResolver {
   async getOneUser(
     @Arg("data") data: GetOneUserRequest
   ): Promise<GetOneUserResponse | null> {
-    return await UserService.getOneUser(data);
+    return UserService.getOneUser(data);
   }
 }

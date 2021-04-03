@@ -1,7 +1,8 @@
-import { InputType, Field } from "type-graphql";
-import { Length, IsEmail } from "class-validator";
+import { ObjectType, Field } from "type-graphql";
+import { Length, IsEmail, MaxLength } from "class-validator";
+import { Log, Category, Post } from "../../entity";
 
-@InputType()
+@ObjectType()
 export class GetOneUserResponse {
   @Field()
   @Length(6, 8)

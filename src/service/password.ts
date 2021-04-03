@@ -1,10 +1,8 @@
-import crypto from "crypto";
-import config from "../config"
+import bcrypt from "bcrypt";
+import config from "../config";
 
 export class PasswordService {
-  static encryptPassword(password: string) {
-    return crypto
-      .pbkdf2Sync(password, config.PASSWORD_SALT, 101856, 44, "sha512")
-      .toString("base64");
+  static async encryptPassword(password: string) {
+    return await bcrypt.hash(password, config.PASSWORD_SALT);
   }
 }

@@ -1,26 +1,23 @@
+import { User } from "../entity";
 import { context } from "../context";
-import { SignupRequest, GetOneUserRequest, GetOneUserResponse } from "../dto";
 
 export class UserRepository {
-  static async signup(data: SignupRequest): Promise<void> {
+  static async save({ username, password, email, nickname }: User) {
     await context.prisma.user.create({
       data: {
-        username: data.username,
-        password: data.password,
-        email: data.email,
-        nickname: data.nickname
-      }
+        username,
+        password,
+        email,
+        nickname,
+      },
     });
   }
 
-  static async getOneUser({ username }: GetOneUserRequest): Promise<GetOneUserResponse | null> {
-    return await context.prisma.user.findUnique({
-      where: { username },
-      select: {
-        username: true,
-        email: true,
-        nickname: true
-      }
+  static findByUsername(username: string): Promise<User | null> {
+    return context.prisma.user.findUnique({
+      where: {
+        username,
+      },
     });
   }
 }

@@ -1,5 +1,6 @@
 import { InputType, Field } from "type-graphql";
 import { Length, IsEmail, MaxLength } from "class-validator";
+import { User } from "../../entity";
 
 @InputType()
 export class SignupRequest {
@@ -19,4 +20,8 @@ export class SignupRequest {
   @Field()
   @Length(2, 6)
   nickname!: string;
+
+  toUserEntity() {
+    return new User(this.username, this.password, this.nickname, this.email);
+  }
 }

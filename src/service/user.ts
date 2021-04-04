@@ -1,22 +1,22 @@
-import { UserRepository } from "../repository";
-import { SignupRequest, GetOneUserRequest, GetOneUserResponse } from "../dto";
+import { SignupRequest, UserRequest, UserResponse } from "../dto";
+import { UserRepository } from "../repository/user";
 import { UserInputError } from "apollo-server";
 import { PasswordService } from "./password";
 
 export class UserService {
-  static async signup(data: SignupRequest): Promise<void> {
-    const user = await this.getOneUser({ username: data.username });
+  static async signup(req: SignupRequest): Promise<void> {
+    const user = await UserRepository.findByUsername(req.username);
     if (user) {
       throw new UserInputError("User Already Exists", {
-        status: 409
+        status: 409,
       });
     }
 
-    data.password = await PasswordService.encryptPassword(data.password);
-    await UserRepository.signup(data);
+    req.password = PasswordService.encryptPassword(req.password);
+    return UserRepository.save(req.toUserEntity());
   }
 
-  static async getOneUser({ username }: GetOneUserRequest): Promise<GetOneUserResponse | null> {
-    return await UserRepository.getOneUser({ username });
+  static getOneUser({ username }: UserRequest): Promise<UserResponse | null> {
+    return UserRepository.findByUsername(username);
   }
 }

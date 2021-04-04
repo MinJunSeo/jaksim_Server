@@ -1,26 +1,22 @@
-import { context } from "../context";
-import { SignupRequest, GetOneUserRequest, GetOneUserResponse } from "../dto";
+import { SignupRequest, UserRequest, UserResponse } from "../dto";
+import { UserRepository } from "../repository/user";
+import { UserInputError } from "apollo-server";
+import { PasswordService } from "./password";
 
 export class UserService {
   static async signup(req: SignupRequest): Promise<void> {
-    await context.prisma.user.create({
-      data: {
-        username: req.username,
-        password: req.password,
-        email: req.email,
-        nickname: req.nickname
-      }
-    });
+    const user = await UserRepository.findByUsername(req.username);
+    if (user) {
+      throw new UserInputError("User Already Exists", {
+        status: 409,
+      });
+    }
+
+    req.password = PasswordService.encryptPassword(req.password);
+    return UserRepository.save(req.toUserEntity());
   }
 
-  static async getOneUser({ username }: GetOneUserRequest): Promise<GetOneUserResponse | null> {
-    return await context.prisma.user.findUnique({
-      where: { username },
-      select: {
-        username: true,
-        email: true,
-        nickname: true
-      }
-    });
+  static getOneUser({ username }: UserRequest): Promise<UserResponse | null> {
+    return UserRepository.findByUsername(username);
   }
 }

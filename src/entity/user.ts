@@ -6,7 +6,19 @@ import { Post } from "./post";
 
 @ObjectType()
 export class User {
-  @Field(type => ID)
+  constructor(
+    username: string,
+    password: string,
+    nickname: string,
+    email: string
+  ) {
+    this.username = username;
+    this.password = password;
+    this.nickname = nickname;
+    this.email = email;
+  }
+
+  @Field((type) => ID)
   @Length(6, 8)
   readonly username!: string;
 
@@ -22,12 +34,12 @@ export class User {
   @IsEmail()
   readonly email!: string;
 
-  @Field(type => [Log], { nullable: true })
-  logs?: [Log] | null
+  @Field((type) => [Log], { nullable: true })
+  logs?: [Log] | null;
 
-  @Field(type => [Category], { nullable: true })
-  categories?: [Category] | null
+  @Field((type) => [Category], { nullable: true })
+  categories?: [Category] | null;
 
-  @Field(type => [Post], { nullable: true })
-  posts?: [Post] | null
+  @Field((type) => [Post], { nullable: true })
+  posts?: [Post] | null;
 }

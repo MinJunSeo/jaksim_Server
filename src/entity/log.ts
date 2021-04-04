@@ -1,17 +1,17 @@
-import { ObjectType, Field, ID } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { User } from "./user";
 
 @ObjectType()
 export class Log {
-  @Field(type => ID)
+  @Field((type) => ID)
   readonly id!: number;
 
   @Field()
-  date!: Date
+  date!: Date;
 
   @Field()
   type!: string;
 
-  @Field(type => User)
-  user!: User
+  @Field((type) => User)
+  user!: User;
 }

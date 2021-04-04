@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import config from "../config"
+import config from "../config";
 
 export class PasswordService {
   static encryptPassword(password: string) {

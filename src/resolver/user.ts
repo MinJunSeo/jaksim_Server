@@ -14,7 +14,7 @@ export class UserResolver {
     };
   }
 
-  @Query(() => User, { nullable: true })
+  @Query(() => UserResponse, { nullable: true })
   async getOneUser(
     @Arg("data") data: UserRequest
   ): Promise<UserResponse | null> {

@@ -20,4 +20,12 @@ export class UserRepository {
       },
     });
   }
+
+  static findByEmail(email: string): Promise<User | null> {
+    return context.prisma.user.findUnique({
+      where: {
+        email
+      }
+    });
+  }
 }

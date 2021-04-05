@@ -16,6 +16,7 @@ export const app = async () => {
     context,
     debug: false,
     formatError,
+    cors: true
   }).listen({ port: config.SERVER_PORT }, () => {
     console.log(`Server listening at ${config.SERVER_PORT} port!`);
   });

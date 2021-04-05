@@ -1,9 +1,9 @@
 import { transporter } from "../config/email";
+import { SendEmailRequest } from "../dto";
 import config from "../config";
 
 export class EmailService {
-  // 대충 email input dto 만들면 될 듯
-  async sendMail(email: string, nickname: string) {
+  async sendMail({ email, nickname }: SendEmailRequest) {
     await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,
       to: `"${nickname}" <${email}>`,

@@ -2,7 +2,10 @@ import { ValidationError } from "apollo-server";
 
 export const formatError = err => {
   let { message, extensions } = err;
-
+  
+  console.log("message: ", message);
+  console.log("extensions\n", extensions);
+  
   // class-validator and graphql validation exception handling
   if (err instanceof ValidationError || message.startsWith("Argument")) {
     message = "Invalid Parameteres";

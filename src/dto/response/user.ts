@@ -1,7 +1,7 @@
-import { InputType, Field } from "type-graphql";
+import { ObjectType, Field } from "type-graphql";
 import { Length, IsEmail } from "class-validator";
 
-@InputType()
+@ObjectType()
 export class UserResponse {
   @Field()
   @Length(6, 8)

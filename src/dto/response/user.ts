@@ -1,8 +1,8 @@
-import { Field, InputType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { IsEmail, Length } from "class-validator";
 import { User } from "../../entity";
 
-@InputType()
+@ObjectType()
 export class UserResponse {
   private constructor(username: string, email: string, nickname: string) {
     this.username = username;

@@ -17,13 +17,14 @@ export class EmailService {
     await EmailService.sendMail({ email, nickname });
   }
 
-  static async sendMail({ email, nickname }: SendEmailRequest) {
-    await transporter.sendMail({
+  static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {
+    const sendResult = await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,
       to: `"${nickname}" <${email}>`,
       subject: "Jaksim Email Auth",
       text: `Email 인증 코드 : ${generateEmailAuthKey()}`
     });
     transporter.close();
+    return sendResult.accepted.length > 0;
   }
 }

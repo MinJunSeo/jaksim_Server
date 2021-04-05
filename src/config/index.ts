@@ -6,4 +6,7 @@ export default {
   JWT_SECRET: process.env.JWT_SECRET || "",
   SERVER_PORT: process.env.SERVER_PORT || "",
   PASSWORD_SALT: process.env.PASSWORD_SALT || "",
+  REDIS_HOST: process.env.REDIS_HOST || "",
+  REDIS_PORT: process.env.REDIS_PORT || "",
+  REDIS_PASS: process.env.REDIS_PASS || "",
 };

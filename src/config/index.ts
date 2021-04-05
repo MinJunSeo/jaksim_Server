@@ -7,5 +7,6 @@ export default {
   SERVER_PORT: process.env.SERVER_PORT || "",
   EMAIL_USER: process.env.EMAIL_USER || "",
   EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || "",
-  EMAIL: process.env.EMAIL || ""
-}
+  EMAIL: process.env.EMAIL || "",
+  PASSWORD_SALT: process.env.PASSWORD_SALT || "",
+};

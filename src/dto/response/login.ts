@@ -1,6 +1,6 @@
-import { Field, InputType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
-@InputType()
+@ObjectType()
 export class LoginResponse {
   @Field()
   accessToken!: string;

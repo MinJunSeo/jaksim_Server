@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import config from "../config";
 
 export class PasswordService {
   static async encryptPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, config.PASSWORD_SALT);
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
   }
 }

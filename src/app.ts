@@ -15,11 +15,8 @@ export const app = async () => {
     schema,
     context,
     debug: false,
-    formatError
-  })
-    .listen({ port: config.SERVER_PORT }, () => {
-      console.log(
-        `Server listening at ${config.SERVER_PORT} port!`
-      );
-    });
+    formatError,
+  }).listen({ port: config.SERVER_PORT }, () => {
+    console.log(`Server listening at ${config.SERVER_PORT} port!`);
+  });
 };

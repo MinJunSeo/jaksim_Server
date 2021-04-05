@@ -10,7 +10,8 @@ export const formatError = err => {
   }
 
   return {
-    message: extensions && extensions.status ? message : "Internal Server Error",
-    status: extensions && extensions.status ? extensions.status : 500
+    message:
+      extensions && extensions.status ? message : "Internal Server Error",
+    status: extensions && extensions.status ? extensions.status : 500,
   };
 };

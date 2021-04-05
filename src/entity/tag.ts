@@ -1,9 +1,9 @@
-import { ObjectType, Field } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { Post } from "./post";
 
 @ObjectType()
 export class Tag {
-  @Field(type => Post)
+  @Field((type) => Post)
   post!: Post;
 
   @Field()

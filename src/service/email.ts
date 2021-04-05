@@ -1,9 +1,22 @@
+import { UserInputError } from "apollo-server";
+import config from "../config";
 import { transporter } from "../config/email";
 import { SendEmailRequest } from "../dto";
-import config from "../config";
 import { generateEmailAuthKey } from "../util";
+import { UserRepository } from "../repository";
 
 export class EmailService {
+  static async sendVerificationEmail({ email, nickname }: SendEmailRequest) {
+    const user = await UserRepository.findByEmail(email);
+    if (user) {
+      throw new UserInputError("User Already Exists", {
+        status: 409
+      });
+    }
+
+    await this.sendMail({ email, nickname });
+  }
+
   static async sendMail({ email, nickname }: SendEmailRequest) {
     await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,

@@ -1,1 +1,1 @@
-export * from "./generateRandomNumber";
+export * from "./generateEmailAuthKey";

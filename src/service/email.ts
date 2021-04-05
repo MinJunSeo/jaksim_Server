@@ -14,7 +14,7 @@ export class EmailService {
       });
     }
 
-    await this.sendMail({ email, nickname });
+    await EmailService.sendMail({ email, nickname });
   }
 
   static async sendMail({ email, nickname }: SendEmailRequest) {

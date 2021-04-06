@@ -1,6 +1,12 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../entity";
-import { HttpResponse, SignupRequest, UserResponse } from "../dto";
+import {
+  HttpResponse,
+  LoginRequest,
+  LoginResponse,
+  SignupRequest,
+  UserResponse,
+} from "../dto";
 import { UserService } from "../service";
 
 @Resolver(User)
@@ -19,5 +25,10 @@ export class UserResolver {
     @Arg("username") username: string
   ): Promise<UserResponse | null> {
     return await UserService.getOneUser(username);
+  }
+
+  @Mutation(() => LoginResponse)
+  async login(@Arg("data") data: LoginRequest): Promise<LoginResponse> {
+    return await UserService.login(data);
   }
 }

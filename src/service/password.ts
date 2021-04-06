@@ -5,4 +5,8 @@ export class PasswordService {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
   }
+
+  static match(rawPassword: string, hashedPassword): Promise<boolean> {
+    return bcrypt.compare(rawPassword, hashedPassword);
+  }
 }

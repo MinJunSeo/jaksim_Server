@@ -1,11 +1,14 @@
-import { LoginRequest, SignupRequest, UserResponse } from "../dto";
-import { UserRepository } from "../repository";
+import {
+  LoginRequest,
+  SignupRequest,
+  UserResponse,
+  LoginResponse,
+} from "../dto";
+import { UserRepository, TokenRepository } from "../repository";
 import { UserInputError } from "apollo-server";
 import { PasswordService } from "./password";
 import { UnauthorizedError } from "type-graphql";
-import { LoginResponse } from "../dto/response/login";
 import { JwtGenerator } from "../util/jwtGenerator";
-import { TokenRepository } from "../repository/token";
 
 export class UserService {
   static async signup(data: SignupRequest): Promise<void> {

@@ -1,10 +1,12 @@
-import crypto from "crypto";
-import config from "../config"
+import bcrypt from "bcrypt";
 
 export class PasswordService {
-  static encryptPassword(password: string) {
-    return crypto
-      .pbkdf2Sync(password, config.PASSWORD_SALT, 101856, 44, "sha512")
-      .toString("base64");
+  static async encryptPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+  }
+
+  static match(rawPassword: string, hashedPassword: string): Promise<boolean> {
+    return bcrypt.compare(rawPassword, hashedPassword);
   }
 }

@@ -1,35 +1,40 @@
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../entity";
-import { SignupRequest, GetOneUserRequest, HttpResponse, GetOneUserResponse } from "../dto";
-import { PasswordService, UserService } from "../service";
-import { UserInputError } from "apollo-server";
+import {
+  HttpResponse,
+  LoginRequest,
+  LoginResponse,
+  SignupRequest,
+  UserResponse,
+  SendEmailRequest
+} from "../dto";
+import { UserService, EmailService } from "../service";
 
 @Resolver(User)
 export class UserResolver {
   @Mutation(() => HttpResponse)
-  async signup(
-    @Arg("data") data: SignupRequest,
-  ): Promise<HttpResponse> {
-    const user = await UserService.getOneUser({ username: data.username });
-    if (user) {
-      throw new UserInputError("User Already Exists", {
-        status: 409
-      });
-    }
-
-    data.password = PasswordService.encryptPassword(data.password);
+  async signup(@Arg("data") data: SignupRequest): Promise<HttpResponse> {
     await UserService.signup(data);
-
     return {
       message: "User Created",
-      status: 201
+      status: 201,
     };
   }
-  
-  @Query(() => User, { nullable: true })
+
+  @Query(() => UserResponse, { nullable: true })
   async getOneUser(
-    @Arg("data") data: GetOneUserRequest
-  ): Promise<GetOneUserResponse | null> {
-    return await UserService.getOneUser(data);
+    @Arg("username") username: string
+  ): Promise<UserResponse | null> {
+    return await UserService.getOneUser(username);
+  }
+
+  @Query(() => HttpResponse)
+  async verifyEmail(@Arg("data") data: SendEmailRequest): Promise<HttpResponse> {
+    return await EmailService.sendVerificationEmail(data);
+  }
+
+  @Mutation(() => LoginResponse)
+  async login(@Arg("data") data: LoginRequest): Promise<LoginResponse> {
+    return await UserService.login(data);
   }
 }

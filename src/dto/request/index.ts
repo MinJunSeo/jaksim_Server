@@ -1,2 +1,4 @@
 export * from "./signup";
-export * from "./getOneUser";
+export * from "./user";
+export * from "./email";
+export * from "./login";

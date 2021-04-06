@@ -1,5 +1,5 @@
 import { SignupRequest, UserResponse } from "../dto";
-import { UserRepository } from "../repository/user";
+import { UserRepository } from "../repository";
 import { UserInputError } from "apollo-server";
 import { PasswordService } from "./password";
 

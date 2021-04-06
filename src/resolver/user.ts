@@ -29,7 +29,7 @@ export class UserResolver {
   }
 
   @Query(() => HttpResponse)
-  async verifyEmail(@Arg("data") data: SendEmailRequest): Promise<HttpResponse> {
+  async sendVerificationEmail(@Arg("data") data: SendEmailRequest): Promise<HttpResponse> {
     return await EmailService.sendVerificationEmail(data);
   }
 

@@ -12,4 +12,6 @@ export default {
   REDIS_HOST: process.env.REDIS_HOST || "",
   REDIS_PORT: process.env.REDIS_PORT || "",
   REDIS_PASS: process.env.REDIS_PASS || "",
+  JWT_ACCESS_EXP: process.env.JWT_ACCESS_EXP || "",
+  JWT_REFRESH_EXP: process.env.JWT_REFRESH_EXP || "",
 };

@@ -5,7 +5,8 @@ import {
   SignupResult,
   Signup,
   SuccessSignup,
-  AlreadyUserExists
+  AlreadyUserExists,
+  EmailVerificationFailed
 } from "../dto";
 import { UserRepository, TokenRepository } from "../repository";
 import { AuthenticationError } from "apollo-server";
@@ -20,7 +21,10 @@ export class UserService {
       return new AlreadyUserExists();
     }
     
-    await EmailService.verifyAuthCode(data.email, data.authCode);
+    if (await EmailService.verifyAuthCode(data.email, data.authCode)) {
+      return new EmailVerificationFailed();
+    }
+
     data.password = await PasswordService.encryptPassword(data.password);
     await UserRepository.save(data.toUserEntity());
 

@@ -1,8 +1,11 @@
 import {
   LoginRequest,
   SignupRequest,
-  UserResponse,
   LoginResponse,
+  SignupResponse,
+  Signup,
+  SuccessSignup,
+  AlreadyUserExists
 } from "../dto";
 import { UserRepository, TokenRepository } from "../repository";
 import { UserInputError, AuthenticationError } from "apollo-server";
@@ -11,23 +14,22 @@ import { EmailService } from "./email";
 import { JwtGenerator } from "../util/jwtGenerator";
 
 export class UserService {
-  static async signup(data: SignupRequest): Promise<void> {
+  static async signup(data: SignupRequest): Promise<typeof SignupResponse> {
     const user = await UserRepository.findByUsername(data.username);
     if (user) {
-      throw new UserInputError("User Already Exists", {
-        status: 409,
-      });
+      return new AlreadyUserExists();
     }
     
     await EmailService.verifyAuthCode(data.email, data.authCode);
-    
     data.password = await PasswordService.encryptPassword(data.password);
-    return UserRepository.save(data.toUserEntity());
+    await UserRepository.save(data.toUserEntity());
+
+    return new SuccessSignup();
   }
 
-  static async getOneUser(username: string): Promise<UserResponse | null> {
+  static async getOneUser(username: string): Promise<Signup | null> {
     const user = await UserRepository.findByUsername(username);
-    return user ? UserResponse.from(user) : null;
+    return user ? Signup.from(user) : null;
   }
 
   static async login({

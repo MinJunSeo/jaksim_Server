@@ -7,7 +7,6 @@ import {
 import { UserRepository, TokenRepository } from "../repository";
 import { UserInputError, AuthenticationError } from "apollo-server";
 import { PasswordService } from "./password";
-import { UnauthorizedError } from "type-graphql";
 import { JwtGenerator } from "../util/jwtGenerator";
 
 export class UserService {

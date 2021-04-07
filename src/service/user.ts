@@ -7,6 +7,7 @@ import {
 import { UserRepository, TokenRepository } from "../repository";
 import { UserInputError, AuthenticationError } from "apollo-server";
 import { PasswordService } from "./password";
+import { EmailService } from "./email";
 import { JwtGenerator } from "../util/jwtGenerator";
 
 export class UserService {
@@ -17,7 +18,9 @@ export class UserService {
         status: 409,
       });
     }
-
+    
+    await EmailService.verifyAuthCode(data.email, data.authCode);
+    
     data.password = await PasswordService.encryptPassword(data.password);
     return UserRepository.save(data.toUserEntity());
   }

@@ -34,13 +34,18 @@ export class EmailService {
   }
 
   private static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {
+    const authCode = generateEmailAuthKey();
+
     const sendResult = await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,
       to: `"${nickname}" <${email}>`,
       subject: "Jaksim Email Auth",
-      text: `Email 인증 코드 : ${generateEmailAuthKey()}`
+      text: `Email 인증 코드 : ${authCode}`
     });
+
     transporter.close();
+    await EmailRepository.saveEmailAuthKey(email, authCode);
+
     return sendResult.accepted.length > 0;
   }
 }

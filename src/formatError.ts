@@ -1,4 +1,4 @@
-import { ValidationError } from "apollo-server";
+import { AuthenticationError, ValidationError } from "apollo-server";
 
 export const formatError = err => {
   let { message, extensions } = err;
@@ -7,6 +7,11 @@ export const formatError = err => {
   if (err instanceof ValidationError || message.startsWith("Argument")) {
     message = "Invalid Parameteres";
     extensions = { status: 400 };
+  }
+
+  // Authentication Error handling
+  if (err instanceof AuthenticationError) {
+    extensions = { status: 401 };
   }
 
   return {

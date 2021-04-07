@@ -5,7 +5,7 @@ import {
   LoginResponse,
 } from "../dto";
 import { UserRepository, TokenRepository } from "../repository";
-import { UserInputError } from "apollo-server";
+import { UserInputError, AuthenticationError } from "apollo-server";
 import { PasswordService } from "./password";
 import { UnauthorizedError } from "type-graphql";
 import { JwtGenerator } from "../util/jwtGenerator";
@@ -34,7 +34,7 @@ export class UserService {
   }: LoginRequest): Promise<LoginResponse> {
     const user = await UserRepository.findByUsername(username);
     if (!user) {
-      throw new UnauthorizedError();
+      throw new AuthenticationError("Login Failed");
     }
 
     const isPasswordMatched = await PasswordService.match(
@@ -42,7 +42,7 @@ export class UserService {
       user.password
     );
     if (!isPasswordMatched) {
-      throw new UnauthorizedError();
+      throw new AuthenticationError("Login Failed");
     }
 
     const accessToken = JwtGenerator.accessToken({ username });

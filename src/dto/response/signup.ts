@@ -27,10 +27,16 @@ export class Signup {
   }
 }
 
+enum SignupMessage {
+  SuccessSignup = "USER CREATED",
+  AlreadyUserExists = "ALREADY USER EXISTS",
+  EmailVerificationFailed = "EMAIL VERFICATION FAILED"
+}
+
 @ObjectType()
 export class SuccessSignup {
   constructor() {
-    this.message = "User Created";
+    this.message = SignupMessage.SuccessSignup;
   }
 
   @Field()
@@ -40,7 +46,17 @@ export class SuccessSignup {
 @ObjectType()
 export class AlreadyUserExists {
   constructor() {
-    this.message = "User Already Exists";
+    this.message = SignupMessage.AlreadyUserExists;
+  }
+
+  @Field()
+  message!: string;
+}
+
+@ObjectType()
+export class EmailVerificationFailed {
+  constructor() {
+    this.message = SignupMessage.EmailVerificationFailed;
   }
 
   @Field()
@@ -49,14 +65,21 @@ export class AlreadyUserExists {
 
 export const SignupResult = createUnionType({
   name: "SignupResult",
-  types: () => [SuccessSignup, AlreadyUserExists] as const,
+  types: () => [SuccessSignup, AlreadyUserExists, EmailVerificationFailed] as const,
   resolveType: args => {
-    if (args.message === "User Created") {
-      return SuccessSignup;
+    switch (args.message) {
+      case SignupMessage.SuccessSignup: {
+        return SuccessSignup;
+      }
+      case SignupMessage.AlreadyUserExists: {
+        return AlreadyUserExists;
+      }
+      case SignupMessage.EmailVerificationFailed: {
+        return EmailVerificationFailed;
+      }
+      default: {
+        return undefined;
+      }
     }
-    if (args.message === "Already User Exists") {
-      return AlreadyUserExists;
-    }
-    return undefined;
   }
 });

@@ -28,7 +28,7 @@ export class UserResolver {
     return await UserService.getOneUser(username);
   }
 
-  @Query(() => HttpResponse)
+  @Mutation(() => HttpResponse)
   async sendVerificationEmail(@Arg("data") data: SendEmailRequest): Promise<HttpResponse> {
     return await EmailService.sendVerificationEmail(data);
   }

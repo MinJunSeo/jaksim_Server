@@ -8,7 +8,7 @@ import {
   AlreadyUserExists
 } from "../dto";
 import { UserRepository, TokenRepository } from "../repository";
-import { UserInputError, AuthenticationError } from "apollo-server";
+import { AuthenticationError } from "apollo-server";
 import { PasswordService } from "./password";
 import { EmailService } from "./email";
 import { JwtGenerator } from "../util/jwtGenerator";

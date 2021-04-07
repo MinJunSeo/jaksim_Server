@@ -2,6 +2,11 @@ import { createUnionType, Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Login {
+  constructor(accessToken: string, refreshToken: string) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+  }
+
   @Field()
   accessToken!: string;
 
@@ -11,6 +16,10 @@ export class Login {
 
 @ObjectType()
 export class InvalidLoginInfo {
+  constructor() {
+    this.message = "Invalid Login Info";
+  }
+
   @Field()
   message!: string;
 }

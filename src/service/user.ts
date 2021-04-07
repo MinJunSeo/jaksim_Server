@@ -35,9 +35,7 @@ export class UserService {
   }: LoginRequest): Promise<typeof LoginResult> {
     const user = await UserRepository.findByUsername(username);
     if (!user) {
-      return {
-        message: "Invalid login info",
-      } as InvalidLoginInfo;
+      return new InvalidLoginInfo();
     }
 
     const isPasswordMatched = await PasswordService.match(
@@ -45,18 +43,13 @@ export class UserService {
       user.password
     );
     if (!isPasswordMatched) {
-      return {
-        message: "Invalid login info",
-      } as InvalidLoginInfo;
+      return new InvalidLoginInfo();
     }
 
     const accessToken = JwtGenerator.accessToken({ username });
     const refreshToken = JwtGenerator.refreshToken();
     await TokenRepository.saveRefreshToken(username, refreshToken);
 
-    return {
-      accessToken,
-      refreshToken,
-    } as Login;
+    return new Login(accessToken, refreshToken);
   }
 }

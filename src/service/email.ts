@@ -1,7 +1,7 @@
 import { UserInputError, ApolloError, AuthenticationError } from "apollo-server";
 import config from "../config";
 import { transporter } from "../config/email";
-import { SendEmailRequest, HttpResponse, SignupRequest } from "../dto";
+import { SendEmailRequest, HttpResponse, AlreadyUserExists } from "../dto";
 import { generateEmailAuthKey } from "../util";
 import { EmailRepository, UserRepository,  } from "../repository";
 
@@ -24,12 +24,12 @@ export class EmailService {
   static async verifyAuthCode(
     email: string,
     authCode: string
-  ): Promise<void> {
+  ): Promise<void | AlreadyUserExists> {
     const storedAuthCode = await EmailRepository.findByEmail(email);
     if (authCode === storedAuthCode) {
       return;
     } else {
-      throw new AuthenticationError("Verify Failed");
+      return new AuthenticationError("Email Verify Failed");
     }
   }
 

@@ -5,27 +5,23 @@ import {
   LoginRequest,
   LoginResponse,
   SignupRequest,
-  UserResponse,
-  SendEmailRequest
+  SendEmailRequest,
+  SignupResult
 } from "../dto";
 import { UserService, EmailService } from "../service";
 
 @Resolver(User)
 export class UserResolver {
   @Mutation(() => HttpResponse)
-  async signup(@Arg("data") data: SignupRequest): Promise<HttpResponse> {
-    await UserService.signup(data);
-    return {
-      message: "User Created",
-      status: 201,
-    };
+  async signup(@Arg("data") data: SignupRequest): Promise<typeof SignupResult> {
+    return await UserService.signup(data);
   }
 
-  @Query(() => UserResponse, { nullable: true })
+  @Query(() => User, { nullable: true })
   async getOneUser(
     @Arg("username") username: string
-  ): Promise<UserResponse | null> {
-    return await UserService.getOneUser(username);
+  ): Promise<User | null> {
+    return null;
   }
 
   @Mutation(() => HttpResponse)

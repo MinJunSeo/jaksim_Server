@@ -50,4 +50,13 @@ export class AlreadyUserExists {
 export const SignupResult = createUnionType({
   name: "SignupResult",
   types: () => [SuccessSignup, AlreadyUserExists] as const,
+  resolveType: args => {
+    if (args.message === "User Created") {
+      return SuccessSignup;
+    }
+    if (args.message === "Already User Exists") {
+      return AlreadyUserExists;
+    }
+    return undefined;
+  }
 });

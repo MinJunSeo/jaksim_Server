@@ -2,7 +2,7 @@ import {
   LoginRequest,
   SignupRequest,
   LoginResponse,
-  SignupResponse,
+  SignupResult,
   Signup,
   SuccessSignup,
   AlreadyUserExists
@@ -14,7 +14,7 @@ import { EmailService } from "./email";
 import { JwtGenerator } from "../util/jwtGenerator";
 
 export class UserService {
-  static async signup(data: SignupRequest): Promise<typeof SignupResponse> {
+  static async signup(data: SignupRequest): Promise<typeof SignupResult> {
     const user = await UserRepository.findByUsername(data.username);
     if (user) {
       return new AlreadyUserExists();

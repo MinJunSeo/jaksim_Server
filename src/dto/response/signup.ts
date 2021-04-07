@@ -47,7 +47,7 @@ export class AlreadyUserExists {
   message!: string;
 }
 
-export const SignupResponse = createUnionType({
-  name: "SignupResponse",
+export const SignupResult = createUnionType({
+  name: "SignupResult",
   types: () => [SuccessSignup, AlreadyUserExists] as const,
 });

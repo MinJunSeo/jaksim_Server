@@ -24,10 +24,10 @@ export class EmailService {
   static async verifyAuthCode(
     email: string,
     authCode: string
-  ): Promise<boolean> {
+  ): Promise<void> {
     const storedAuthCode = await EmailRepository.findByEmail(email);
     if (authCode === storedAuthCode) {
-      return true;
+      return;
     } else {
       throw new AuthenticationError("Verify Failed");
     }

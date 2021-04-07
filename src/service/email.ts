@@ -1,9 +1,9 @@
-import { UserInputError, ApolloError } from "apollo-server";
+import { UserInputError, ApolloError, AuthenticationError } from "apollo-server";
 import config from "../config";
 import { transporter } from "../config/email";
-import { SendEmailRequest, HttpResponse } from "../dto";
+import { SendEmailRequest, HttpResponse, SignupRequest } from "../dto";
 import { generateEmailAuthKey } from "../util";
-import { UserRepository } from "../repository";
+import { EmailRepository, UserRepository,  } from "../repository";
 
 export class EmailService {
   static async sendVerificationEmail({ email, nickname }: SendEmailRequest): Promise<HttpResponse> {
@@ -19,6 +19,18 @@ export class EmailService {
       throw new ApolloError("Internal Server Error");
     }
     return { message: "OK", status: 200 };
+  }
+
+  static async verifyAuthCode(
+    email: string,
+    authCode: string
+  ): Promise<boolean> {
+    const storedAuthCode = await EmailRepository.findByEmail(email);
+    if (authCode === storedAuthCode) {
+      return true;
+    } else {
+      throw new AuthenticationError("Verify Failed");
+    }
   }
 
   private static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {

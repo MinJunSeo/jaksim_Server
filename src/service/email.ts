@@ -21,7 +21,7 @@ export class EmailService {
     return { message: "OK", status: 200 };
   }
 
-  static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {
+  private static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {
     const sendResult = await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,
       to: `"${nickname}" <${email}>`,

@@ -1,10 +1,16 @@
 import { createUnionType, Field, ObjectType } from "type-graphql";
 
+enum LoginMessage {
+  SuccessLogin = "LOGIN SUCCESSFULLY COMPLETE",
+  InvalidLoginInfo = "INVALID LOGIN INFO",
+}
+
 @ObjectType()
 export class Login {
   constructor(accessToken: string, refreshToken: string) {
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
+    this.message = LoginMessage.SuccessLogin;
   }
 
   @Field()
@@ -12,12 +18,15 @@ export class Login {
 
   @Field()
   refreshToken!: string;
+
+  @Field()
+  message!: string;
 }
 
 @ObjectType()
 export class InvalidLoginInfo {
   constructor() {
-    this.message = "Invalid Login Info";
+    this.message = LoginMessage.InvalidLoginInfo;
   }
 
   @Field()
@@ -28,12 +37,16 @@ export const LoginResult = createUnionType({
   name: "LoginResult",
   types: () => [Login, InvalidLoginInfo] as const,
   resolveType: (args) => {
-    if ("accessToken" in args) {
-      return Login;
+    switch (args.message) {
+      case LoginMessage.SuccessLogin: {
+        return Login;
+      }
+      case LoginMessage.InvalidLoginInfo: {
+        return InvalidLoginInfo;
+      }
+      default: {
+        return undefined;
+      }
     }
-    if ("message" in args) {
-      return InvalidLoginInfo;
-    }
-    return undefined;
   },
 });

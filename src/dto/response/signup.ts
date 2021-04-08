@@ -1,6 +1,7 @@
 import { Field, ObjectType, createUnionType } from "type-graphql";
 import { IsEmail, Length } from "class-validator";
 import { User } from "../../entity";
+import { VerifyEmailFailed } from "./verifyEmail";
 
 @ObjectType()
 export class Signup {
@@ -65,7 +66,7 @@ export class EmailVerificationFailed {
 
 export const SignupResult = createUnionType({
   name: "SignupResult",
-  types: () => [SuccessSignup, AlreadyUserExists, EmailVerificationFailed] as const,
+  types: () => [SuccessSignup, AlreadyUserExists, VerifyEmailFailed] as const,
   resolveType: args => {
     switch (args.message) {
       case SignupMessage.SuccessSignup: {
@@ -74,8 +75,8 @@ export const SignupResult = createUnionType({
       case SignupMessage.AlreadyUserExists: {
         return AlreadyUserExists;
       }
-      case SignupMessage.EmailVerificationFailed: {
-        return EmailVerificationFailed;
+      case VerifyEmailFailed.getMessage(): {
+        return VerifyEmailFailed;
       }
       default: {
         return undefined;

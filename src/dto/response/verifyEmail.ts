@@ -1,8 +1,8 @@
 import { ObjectType, Field, createUnionType } from "type-graphql";
 
 enum VerifyEmailMessage {
-  Success = "OK",
-  Fail = "Email Verification Faield"
+  Success = "EMAIL VERIFICATION SUCCESS",
+  Fail = "EMAIL VERIFICATION FAIL"
 }
 
 @ObjectType()

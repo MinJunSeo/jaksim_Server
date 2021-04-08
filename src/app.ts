@@ -8,7 +8,8 @@ import { formatError } from "./formatError";
 
 export const app = async () => {
   const schema = await buildSchema({
-    resolvers: [UserResolver]
+    resolvers: [UserResolver],
+    validate: false
   });
 
   new ApolloServer({

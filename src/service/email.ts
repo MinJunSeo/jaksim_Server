@@ -10,7 +10,7 @@ export class EmailService {
     email: string
   ): Promise<{ message: string}> {
     if (await this.sendMail(email)) {
-      return { message: "OK" };
+      return { message: "SEND EMAIL SUCCESSFULLY" };
     }
     throw new ApolloError("Internal Server Error");
   }

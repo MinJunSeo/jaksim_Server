@@ -11,11 +11,13 @@ import { UserService, EmailService } from "../service";
 @Resolver(User)
 export class UserResolver {
   @Mutation(() => SignupResult)
-  async signup(@Arg("data") data: SignupRequest): Promise<typeof SignupResult> {
+  async signup(
+    @Arg("data") data: SignupRequest
+  ): Promise<typeof SignupResult> {
     return await UserService.signup(data);
   }
 
-  @Mutation(() => HttpResponse)
+  @Mutation(() => Object)
   async sendVerificationEmail(
     @Arg("data") data: SendEmailRequest
   ): Promise<{ message: string }> {

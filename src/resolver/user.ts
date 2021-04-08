@@ -1,10 +1,10 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../entity";
 import {
-  HttpResponse,
   SignupRequest,
   SendEmailRequest,
-  SignupResult
+  SignupResult,
+  MessageObject
 } from "../dto";
 import { UserService, EmailService } from "../service";
 
@@ -17,10 +17,15 @@ export class UserResolver {
     return await UserService.signup(data);
   }
 
-  @Mutation(() => Object)
+  @Mutation(() => MessageObject)
   async sendVerificationEmail(
     @Arg("data") data: SendEmailRequest
-  ): Promise<{ message: string }> {
+  ): Promise<MessageObject> {
     return await EmailService.sendVerificationEmail(data.email, data.nickname);
+  }
+
+  @Query(() => String)
+  sayHello(): string {
+    return "Hello World!";
   }
 }

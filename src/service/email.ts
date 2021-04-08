@@ -7,10 +7,9 @@ import { EmailRepository } from "../repository";
 
 export class EmailService {
   static async sendVerificationEmail(
-    email: string,
-    nickname: string
+    email: string
   ): Promise<{ message: string}> {
-    if (await this.sendMail(email, nickname)) {
+    if (await this.sendMail(email)) {
       return { message: "OK" };
     }
     throw new ApolloError("Internal Server Error");
@@ -30,13 +29,12 @@ export class EmailService {
 
   private static async sendMail(
     email: string,
-    nickname: string
   ): Promise<Boolean> {
     const authCode = generateEmailAuthKey();
 
     const sendResult = await transporter.sendMail({
       from: `"Jaksim" <${config.EMAIL}>`,
-      to: `"${nickname}" <${email}>`,
+      to: `<${email}>`,
       subject: "Jaksim Email Auth",
       text: `Email 인증 코드 : ${authCode}`
     });

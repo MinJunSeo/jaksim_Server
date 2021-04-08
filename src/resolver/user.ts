@@ -19,9 +19,9 @@ export class UserResolver {
 
   @Mutation(() => MessageObject)
   async sendVerificationEmail(
-    @Arg("data") data: SendEmailRequest
+    @Arg("email") email: string
   ): Promise<MessageObject> {
-    return await EmailService.sendVerificationEmail(data.email, data.nickname);
+    return await EmailService.sendVerificationEmail(email);
   }
 
   @Query(() => String)

@@ -11,7 +11,7 @@ import { EmailService } from "./email";
 
 export class UserService {
   static async signup(data: SignupRequest): Promise<typeof SignupResult> {
-    const user = await UserRepository.findByUsername(data.username);
+    const user = await UserRepository.findByEmail(data.email);
     if (user) {
       return new AlreadyUserExists();
     }

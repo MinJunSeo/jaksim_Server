@@ -2,7 +2,6 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../entity";
 import {
   SignupRequest,
-  SendEmailRequest,
   SignupResult,
   MessageObject
 } from "../dto";

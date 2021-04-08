@@ -3,7 +3,6 @@ import {
   SignupResult,
   SuccessSignup,
   AlreadyUserExists,
-  EmailVerificationFailed,
   VerifyEmailFailed
 } from "../dto";
 import { UserRepository } from "../repository";
@@ -19,7 +18,7 @@ export class UserService {
     
     const verifyResult = await EmailService.verifyAuthCode(data.email, data.authCode);
     if (verifyResult instanceof VerifyEmailFailed) {
-      return new EmailVerificationFailed();
+      return verifyResult;
     }
 
     data.password = await PasswordService.encryptPassword(data.password);

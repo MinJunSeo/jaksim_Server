@@ -8,15 +8,15 @@ import { formatError } from "./formatError";
 
 export const app = async () => {
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver]
   });
 
   new ApolloServer({
     schema,
     context,
     debug: false,
-    formatError,
-    cors: true
+    cors: true,
+    formatError
   }).listen({ port: config.SERVER_PORT }, () => {
     console.log(`Server listening at ${config.SERVER_PORT} port!`);
   });

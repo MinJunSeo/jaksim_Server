@@ -23,6 +23,7 @@ export class SignupRequest {
 
   @Field()
   @IsNumberString()
+  @Length(6, 6)
   authCode!: string;
 
   toUserEntity() {

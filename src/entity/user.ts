@@ -18,9 +18,9 @@ export class User {
     this.email = email;
   }
 
-  @Field((type) => ID)
+  @Field(type => ID)
   @Length(6, 8)
-  readonly username!: string;
+  username!: string;
 
   @Field()
   @MaxLength(60)
@@ -32,14 +32,14 @@ export class User {
 
   @Field()
   @IsEmail()
-  readonly email!: string;
+  email!: string;
 
-  @Field((type) => [Log], { nullable: true })
+  @Field(type => [Log], { nullable: true })
   logs?: [Log] | null;
 
-  @Field((type) => [Category], { nullable: true })
+  @Field(type => [Category], { nullable: true })
   categories?: [Category] | null;
 
-  @Field((type) => [Post], { nullable: true })
+  @Field(type => [Post], { nullable: true })
   posts?: [Post] | null;
 }

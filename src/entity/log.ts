@@ -8,15 +8,15 @@ enum LogType {
 
 @ObjectType()
 export class Log {
-  @Field((type) => ID)
+  @Field(type => ID)
   readonly id!: number;
 
   @Field()
   date!: Date;
 
-  @Field((type) => LogType)
+  @Field(type => LogType)
   type!: LogType;
 
-  @Field((type) => User)
+  @Field(type => User)
   user!: User;
 }

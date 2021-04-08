@@ -3,7 +3,7 @@ import { Post } from "./post";
 
 @ObjectType()
 export class Tag {
-  @Field((type) => Post)
+  @Field(type => Post)
   post!: Post;
 
   @Field()

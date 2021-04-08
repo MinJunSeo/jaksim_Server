@@ -4,15 +4,15 @@ import { Post } from "./post";
 
 @ObjectType()
 export class Category {
-  @Field((type) => ID)
+  @Field(type => ID)
   readonly id!: number;
 
   @Field()
   name!: string;
 
-  @Field((type) => User)
+  @Field(type => User)
   user!: User;
 
-  @Field((type) => [Post], { nullable: true })
+  @Field(type => [Post], { nullable: true })
   posts!: [Post] | null;
 }

@@ -1,7 +1,9 @@
 import { ValidationError } from "apollo-server";
 
-export const formatError = err => {
+export const formatError = (err) => {
   let { message, extensions } = err;
+  console.log(message); // TODO remove
+  console.log(extensions);
 
   // class-validator and graphql validation exception handling
   if (err instanceof ValidationError || message.startsWith("Argument")) {

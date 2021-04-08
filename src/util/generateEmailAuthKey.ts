@@ -1,5 +1,5 @@
 const generateRandomNumber = () => {
-  return Math.floor(Math.random() * (10 - 0) + 0);
+  return Math.floor(Math.random() * 10);
 };
 
 export const generateEmailAuthKey = () => {

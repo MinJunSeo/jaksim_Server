@@ -3,11 +3,12 @@ import { User } from "../entity";
 import {
   HttpResponse,
   LoginRequest,
-  LoginResponse,
+  LoginResult,
   SignupRequest,
   UserResponse,
+  SendEmailRequest,
 } from "../dto";
-import { UserService } from "../service";
+import { UserService, EmailService } from "../service";
 
 @Resolver(User)
 export class UserResolver {
@@ -27,8 +28,15 @@ export class UserResolver {
     return await UserService.getOneUser(username);
   }
 
-  @Mutation(() => LoginResponse)
-  async login(@Arg("data") data: LoginRequest): Promise<LoginResponse> {
+  @Query(() => HttpResponse)
+  async verifyEmail(
+    @Arg("data") data: SendEmailRequest
+  ): Promise<HttpResponse> {
+    return await EmailService.sendVerificationEmail(data);
+  }
+
+  @Mutation(() => LoginResult)
+  async login(@Arg("data") data: LoginRequest): Promise<typeof LoginResult> {
     return await UserService.login(data);
   }
 }

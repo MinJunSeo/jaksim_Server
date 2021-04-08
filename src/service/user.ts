@@ -2,12 +2,13 @@ import {
   LoginRequest,
   SignupRequest,
   UserResponse,
-  LoginResponse,
+  LoginResult,
+  InvalidLoginInfo,
+  Login,
 } from "../dto";
 import { UserRepository, TokenRepository } from "../repository";
 import { UserInputError } from "apollo-server";
 import { PasswordService } from "./password";
-import { UnauthorizedError } from "type-graphql";
 import { JwtGenerator } from "../util/jwtGenerator";
 
 export class UserService {
@@ -31,10 +32,10 @@ export class UserService {
   static async login({
     username,
     password,
-  }: LoginRequest): Promise<LoginResponse> {
+  }: LoginRequest): Promise<typeof LoginResult> {
     const user = await UserRepository.findByUsername(username);
     if (!user) {
-      throw new UnauthorizedError();
+      return new InvalidLoginInfo();
     }
 
     const isPasswordMatched = await PasswordService.match(
@@ -42,16 +43,13 @@ export class UserService {
       user.password
     );
     if (!isPasswordMatched) {
-      throw new UnauthorizedError();
+      return new InvalidLoginInfo();
     }
 
     const accessToken = JwtGenerator.accessToken({ username });
     const refreshToken = JwtGenerator.refreshToken();
     await TokenRepository.saveRefreshToken(username, refreshToken);
 
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return new Login(accessToken, refreshToken);
   }
 }

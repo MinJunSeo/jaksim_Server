@@ -1,39 +1,33 @@
-import { UserInputError, ApolloError, AuthenticationError } from "apollo-server";
 import config from "../config";
 import { transporter } from "../config/email";
-import { SendEmailRequest, HttpResponse, AlreadyUserExists } from "../dto";
+import { VerifyEmailResult, VerifyEmailSuccess, VerifyEmailFailed } from "../dto";
 import { generateEmailAuthKey } from "../util";
-import { EmailRepository, UserRepository,  } from "../repository";
+import { EmailRepository } from "../repository";
 
 export class EmailService {
-  static async sendVerificationEmail({ email, nickname }: SendEmailRequest): Promise<HttpResponse> {
-    const user = await UserRepository.findByEmail(email);
-    if (user) {
-      throw new UserInputError("User Already Exists", {
-        status: 409
-      });
-    }
-
-    const isSuccess = await EmailService.sendMail({ email, nickname });
-    if (!isSuccess) {
-      throw new ApolloError("Internal Server Error");
-    }
-    return { message: "OK", status: 200 };
+  static async sendVerificationEmail(
+    email: string,
+    nickname: string
+  ): Promise<null> {
+    return null;
   }
 
   static async verifyAuthCode(
     email: string,
     authCode: string
-  ): Promise<void | AlreadyUserExists> {
+  ): Promise<typeof VerifyEmailResult> {
     const storedAuthCode = await EmailRepository.findByEmail(email);
     if (authCode === storedAuthCode) {
-      return;
+      return new VerifyEmailSuccess();
     } else {
-      return new AuthenticationError("Email Verify Failed");
+      return new VerifyEmailFailed();
     }
   }
 
-  private static async sendMail({ email, nickname }: SendEmailRequest): Promise<Boolean> {
+  private static async sendMail(
+    email: string,
+    nickname: string
+  ): Promise<Boolean> {
     const authCode = generateEmailAuthKey();
 
     const sendResult = await transporter.sendMail({

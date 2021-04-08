@@ -6,7 +6,7 @@ enum VerifyEmailMessage {
 }
 
 @ObjectType()
-export class VerfiyEmailSuccess {
+export class VerifyEmailSuccess {
   constructor() {
     this.message = VerifyEmailMessage.Success;
   }
@@ -16,7 +16,7 @@ export class VerfiyEmailSuccess {
 }
 
 @ObjectType()
-export class VerfiyEmailFailed {
+export class VerifyEmailFailed {
   constructor() {
     this.message = VerifyEmailMessage.Fail;
   }
@@ -27,14 +27,14 @@ export class VerfiyEmailFailed {
 
 export const VerifyEmailResult = createUnionType({
   name: "VerifyEmailResult",
-  types: () => [VerfiyEmailSuccess, VerfiyEmailFailed],
+  types: () => [VerifyEmailSuccess, VerifyEmailFailed],
   resolveType: args => {
     switch (args.message) {
       case VerifyEmailMessage.Success: {
-        return VerfiyEmailSuccess;
+        return VerifyEmailSuccess;
       }
       case VerifyEmailMessage.Fail: {
-        return VerfiyEmailFailed;
+        return VerifyEmailFailed;
       }
       default: {
         return undefined;

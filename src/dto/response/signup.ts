@@ -30,8 +30,7 @@ export class Signup {
 
 enum SignupMessage {
   SuccessSignup = "USER CREATED",
-  AlreadyUserExists = "ALREADY USER EXISTS",
-  EmailVerificationFailed = "EMAIL VERFICATION FAILED"
+  AlreadyUserExists = "ALREADY USER EXISTS"
 }
 
 @ObjectType()
@@ -48,16 +47,6 @@ export class SuccessSignup {
 export class AlreadyUserExists {
   constructor() {
     this.message = SignupMessage.AlreadyUserExists;
-  }
-
-  @Field()
-  message!: string;
-}
-
-@ObjectType()
-export class EmailVerificationFailed {
-  constructor() {
-    this.message = SignupMessage.EmailVerificationFailed;
   }
 
   @Field()

@@ -23,6 +23,10 @@ export class VerifyEmailFailed {
 
   @Field()
   message!: string;
+
+  static getMessage(): string {
+    return VerifyEmailMessage.Fail;
+  }
 }
 
 export const VerifyEmailResult = createUnionType({

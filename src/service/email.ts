@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server";
 import config from "../config";
 import { transporter } from "../config/email";
 import { VerifyEmailResult, VerifyEmailSuccess, VerifyEmailFailed } from "../dto";
@@ -8,8 +9,11 @@ export class EmailService {
   static async sendVerificationEmail(
     email: string,
     nickname: string
-  ): Promise<null> {
-    return null;
+  ): Promise<{ message: string}> {
+    if (await this.sendMail(email, nickname)) {
+      return { message: "OK" };
+    }
+    throw new ApolloError("Internal Server Error");
   }
 
   static async verifyAuthCode(

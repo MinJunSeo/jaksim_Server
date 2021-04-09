@@ -8,9 +8,16 @@ import {
 import { UserRepository } from "../repository";
 import { PasswordService } from "./password";
 import { EmailService } from "./email";
+import { validateArguments } from "../util";
+import { signupSchema } from "../schema"
 
 export class UserService {
   static async signup(data: SignupRequest): Promise<typeof SignupResult> {
+    const validateArgumentsResult = await validateArguments(data, signupSchema);
+    if (validateArgumentsResult) {
+      return validateArgumentsResult;
+    }
+
     const user = await UserRepository.findByEmail(data.email);
     if (user) {
       return new AlreadyUserExists();

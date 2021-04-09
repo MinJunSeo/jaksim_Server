@@ -3,8 +3,8 @@ import { User } from "../entity";
 import {
   SignupRequest,
   SignupResult,
-  MessageObject,
-  SendVerificationEmailRequest
+  SendVerificationEmailRequest,
+  SendEmailResult
 } from "../dto";
 import { UserService, EmailService } from "../service";
 
@@ -17,10 +17,10 @@ export class UserResolver {
     return await UserService.signup(data);
   }
 
-  @Mutation(() => MessageObject)
+  @Mutation(() => SendEmailResult)
   async sendVerificationEmail(
     @Arg("data") data: SendVerificationEmailRequest
-  ): Promise<MessageObject> {
+  ): Promise<typeof SendEmailResult> {
     return await EmailService.sendVerificationEmail(data.email);
   }
 

@@ -7,5 +7,9 @@ export class BadRequest {
   }
 
   @Field()
-  message: string;  
+  message: string;
+
+  getMessage(): string {
+    return this.message;
+  }
 }

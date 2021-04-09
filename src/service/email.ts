@@ -1,16 +1,28 @@
 import { ApolloError } from "apollo-server";
 import config from "../config";
 import { transporter } from "../config/email";
-import { VerifyEmailResult, VerifyEmailSuccess, VerifyEmailFailed } from "../dto";
-import { generateEmailAuthKey } from "../util";
+import {
+  SendEmailResult,
+  SendEmailSuccess,
+  VerifyEmailResult,
+  VerifyEmailSuccess,
+  VerifyEmailFailed,
+} from "../dto";
+import { generateEmailAuthKey, validateArguments } from "../util";
 import { EmailRepository } from "../repository";
+import { emailSchema } from "../schema";
 
 export class EmailService {
   static async sendVerificationEmail(
     email: string
-  ): Promise<{ message: string}> {
+  ): Promise<typeof SendEmailResult> {
+    const validateArgumentResult = await validateArguments(email, emailSchema);
+    if (validateArgumentResult) {
+      return validateArgumentResult;
+    }
+
     if (await this.sendMail(email)) {
-      return { message: "SEND EMAIL SUCCESSFULLY" };
+      return new SendEmailSuccess();
     }
     throw new ApolloError("Internal Server Error");
   }

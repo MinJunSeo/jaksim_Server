@@ -3,6 +3,8 @@ export const formatError = err => {
 
   if (message.startsWith("Cannot query field")) {
     message = "Bad Gateway";
+  } else {
+    message = "Internal Server Error";
   }
 
   return { message };

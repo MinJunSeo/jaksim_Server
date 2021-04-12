@@ -1,10 +1,13 @@
+import { BadRequest } from "./dto";
+
 export const formatError = err => {
-  let { message } = err;
+  let { message, extensions } = err;
 
   if (message.startsWith("Cannot query field")) {
     message = "Bad Gateway";
-  } else {
-    message = "Internal Server Error";
+  }
+  else if (extensions?.code === "GRAPHQL_VALIDATION_FAILED") {
+    return new BadRequest();
   }
 
   return { message };

@@ -22,9 +22,4 @@ export class UserResolver {
   ): Promise<typeof SendEmailResult> {
     return await EmailService.sendVerificationEmail(email);
   }
-
-  @Query(() => String)
-  sayHello(): string {
-    return "Hello World!";
-  }
 }

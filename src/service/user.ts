@@ -9,7 +9,7 @@ import { UserRepository } from "../repository";
 import { PasswordService } from "./password";
 import { EmailService } from "./email";
 import { validateArguments } from "../util";
-import { signupSchema } from "../schema"
+import { signupSchema } from "../schema";
 
 export class UserService {
   static async signup(data: SignupRequest): Promise<typeof SignupResult> {

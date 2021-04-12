@@ -15,7 +15,7 @@ export class UserService {
   static async signup(data: SignupRequest): Promise<typeof SignupResult> {
     const validateArgumentsResult = await validateArguments(data, signupSchema);
     if (validateArgumentsResult) {
-      return validateArgumentsResult;
+      throw validateArgumentsResult;
     }
 
     const user = await UserRepository.findByEmail(data.email);

@@ -18,7 +18,7 @@ export class EmailService {
   ): Promise<typeof SendEmailResult> {
     const validateArgumentResult = await validateArguments(email, emailSchema);
     if (validateArgumentResult) {
-      return validateArgumentResult;
+      throw validateArgumentResult;
     }
 
     if (await this.sendMail(email)) {

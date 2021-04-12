@@ -1,5 +1,4 @@
 import { ObjectType, Field, createUnionType } from "type-graphql";
-import { BadRequest } from "./badRequest";
 
 @ObjectType()
 export class SendEmailSuccess {
@@ -17,14 +16,11 @@ export class SendEmailSuccess {
 
 export const SendEmailResult = createUnionType({
   name: "SendEmailResult",
-  types: () => [SendEmailSuccess, BadRequest],
+  types: () => [SendEmailSuccess],
   resolveType: args => {
     switch (args.message) {
       case SendEmailSuccess.getMessage(): {
         return SendEmailSuccess;
-      }
-      case BadRequest.getMessage(): {
-        return BadRequest;
       }
       default: {
         return undefined;

@@ -14,7 +14,10 @@ export const app = async () => {
 
   new ApolloServer({
     schema,
-    context,
+    context: ({ req }) => {
+      context.token = req.headers.authorization || "";
+      return context;
+    },
     debug: false,
     cors: true,
     formatError

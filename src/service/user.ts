@@ -3,12 +3,16 @@ import {
   SignupResult,
   SuccessSignup,
   AlreadyUserExists,
-  VerifyEmailFailed
+  VerifyEmailFailed,
+  LoginRequest,
+  LoginResult,
+  Login,
+  InvalidLoginInfo,
 } from "../dto";
-import { UserRepository } from "../repository";
+import { TokenRepository, UserRepository } from "../repository";
 import { PasswordService } from "./password";
 import { EmailService } from "./email";
-import { validateArguments } from "../util";
+import { JwtGenerator, validateArguments } from "../util";
 import { signupSchema } from "../schema";
 
 export class UserService {
@@ -32,5 +36,29 @@ export class UserService {
     await UserRepository.save(data.toUserEntity());
 
     return new SuccessSignup();
+  }
+
+  static async login({
+    username,
+    password
+  }: LoginRequest): Promise<typeof LoginResult> {
+    const user = await UserRepository.findByUsername(username);
+    if (!user) {
+      return new InvalidLoginInfo();
+    }
+
+    const isPasswordMatched = await PasswordService.match(
+      password,
+      user.password
+    );
+    if (!isPasswordMatched) {
+      return new InvalidLoginInfo();
+    }
+
+    const accessToken = JwtGenerator.accessToken({ username });
+    const refreshToken = JwtGenerator.refreshToken();
+    await TokenRepository.saveRefreshToken(username, refreshToken);
+
+    return new Login(accessToken, refreshToken);
   }
 }

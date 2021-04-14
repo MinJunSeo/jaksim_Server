@@ -3,7 +3,9 @@ import { User } from "../entity";
 import {
   SignupRequest,
   SignupResult,
-  SendEmailResult
+  SendEmailResult,
+  LoginResult,
+  LoginRequest
 } from "../dto";
 import { UserService, EmailService } from "../service";
 
@@ -23,8 +25,8 @@ export class UserResolver {
     return await EmailService.sendVerificationEmail(email);
   }
 
-  @Query(() => String)
-  sayHello() {
-    return "Hello";
+  @Mutation(() => LoginResult)
+  async login(@Arg("data") data: LoginRequest): Promise<typeof LoginResult> {
+    return await UserService.login(data);
   }
 }

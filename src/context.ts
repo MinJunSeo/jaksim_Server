@@ -12,9 +12,13 @@ const redisClient = createClient({
 export interface Context {
   prisma: PrismaClient;
   redisClient: RedisClient;
+  token: string;
+  decoded: object;
 }
 
 export const context: Context = {
   prisma,
   redisClient,
+  token: "",
+  decoded: {}
 };

@@ -1,7 +1,9 @@
 import { BadRequest } from "./dto";
 
-export const formatError = err => {
+export const formatError = (err) => {
   let { message, extensions } = err;
+  console.log(message); // TODO remove
+  console.log(extensions);
 
   if (message.startsWith("Cannot query field")) {
     message = "Bad Gateway";

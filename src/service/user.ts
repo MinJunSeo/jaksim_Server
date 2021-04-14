@@ -40,7 +40,7 @@ export class UserService {
 
   static async login({
     username,
-    password
+    password,
   }: LoginRequest): Promise<typeof LoginResult> {
     const user = await UserRepository.findByUsername(username);
     if (!user) {

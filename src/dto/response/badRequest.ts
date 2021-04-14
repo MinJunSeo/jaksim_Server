@@ -8,8 +8,4 @@ export class BadRequest {
 
   @Field()
   message: string;
-
-  static getMessage(): string {
-    return "BAD REQUEST";
-  }
 }
